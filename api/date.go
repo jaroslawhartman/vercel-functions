@@ -1,7 +1,16 @@
 package api
 
-import "net/http"
+import (
+	"fmt"
+	"net/http"
+	"vercel-functions/internal/db"
+)
 
 func HttpDateHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Date!"))
+
+	DB := db.NewDB()
+
+	response := fmt.Sprintf("Hello from the DB: %s", DB.Name)
+
+	w.Write([]byte(response))
 }
