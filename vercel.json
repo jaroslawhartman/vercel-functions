@@ -3,6 +3,9 @@
   "functions": {
     "api/*": {
         "excludeFiles": "api/internal/**/*"
+    },
+    "api/internal/**/*": {
+        "excludeFiles": "api/internal/**/*"
     }
   }
 }
