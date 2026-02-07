@@ -4,8 +4,8 @@
     "api/*": {
         "excludeFiles": "api/internal/**/*"
     },
-    "api/.vercel/db/*": {
-        "excludeFiles": "api/.vercel/db/*"
+    "api/internal/db/*": {
+        "excludeFiles": "api/internal/db/*"
     }
   }
 }

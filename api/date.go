@@ -3,7 +3,7 @@ package api
 import (
 	"fmt"
 	"net/http"
-	"vercel-functions/api/.vercel/db"
+	"vercel-functions/api/internal/db"
 )
 
 func HttpDateHandler(w http.ResponseWriter, r *http.Request) {
