@@ -9,6 +9,7 @@ import (
 func main() {
 	http.HandleFunc("GET /api/hello", api.HttpHelloHandler)
 	http.HandleFunc("GET /api/date", api.HttpDateHandler)
+	http.HandleFunc("GET /api/echo", api.HttpEchoHandler)
 
 	log.Println("Starting listener... :8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
