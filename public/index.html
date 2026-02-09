@@ -182,9 +182,10 @@
     const outputEl = document.getElementById('echo-output');
     const statusEl = document.getElementById('echo-status');
 
-    let lastSentValue = '';
-    let forcedSubmit = false;
+    let lastSentValue = null;
     let inFlight = false;
+    let debounceTimer = null;
+    const debounceMs = 350;
 
     async function sendEcho(value) {
       if (inFlight) return;
@@ -202,6 +203,7 @@
         const data = await res.json();
         outputEl.textContent = data.output || '';
         statusEl.textContent = 'Updated';
+        lastSentValue = value;
       } catch (err) {
         statusEl.textContent = 'Error: ' + err.message;
       } finally {
@@ -209,21 +211,25 @@
       }
     }
 
-    form.addEventListener('submit', function (event) {
-      event.preventDefault();
-      forcedSubmit = true;
+    function scheduleEchoSend() {
+      clearTimeout(debounceTimer);
+      const nextValue = input.value;
+      debounceTimer = setTimeout(function () {
+        if (nextValue !== lastSentValue) {
+          sendEcho(nextValue);
+        }
+      }, debounceMs);
+    }
+
+    input.addEventListener('input', function () {
+      scheduleEchoSend();
     });
 
-    setInterval(function () {
-      const currentValue = input.value;
-      const changed = currentValue !== lastSentValue;
-
-      if (forcedSubmit || changed) {
-        lastSentValue = currentValue;
-        forcedSubmit = false;
-        sendEcho(currentValue);
-      }
-    }, 500);
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      clearTimeout(debounceTimer);
+      sendEcho(input.value);
+    });
   </script>
 </body>
 </html>
